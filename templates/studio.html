@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio — Ad Forge</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">🔥 Ad <span class="flame">Forge</span></a>
+    <nav class="nav-links">
+      <a href="/gallery">Gallery</a>
+      <a href="/pricing">Pricing</a>
+      <a class="btn btn-primary" href="/studio">Forge an ad</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <div class="form-card">
+      <span class="kicker">The Studio</span>
+      <h1 style="font-size:2rem">Describe the product. Get the ad.</h1>
+      <p class="sub">Out comes: 3 hook options, a timed shooting script for each, captions, hashtags, and a scene-by-scene shot list.</p>
+
+      {% if gate_email %}
+      <div class="gate">
+        <h3 style="margin-top:0">You've used your {{ free_limit }} free packages 🎬</h3>
+        <p style="color:var(--muted)">{{ gate_email }} has forged {{ free_limit }} ad packages on the free tier. Paid plans start at $19/mo for 15 packages a month — cheaper than one hired creator video.</p>
+        <a class="btn btn-primary" href="/pricing">See plans →</a>
+      </div>
+      {% endif %}
+
+      <form method="post" action="/studio">
+        <label for="product_name">Product name *</label>
+        <input id="product_name" type="text" name="product_name" placeholder="e.g. Red Demon Tee" required>
+
+        <label for="description">What does it do? Why do people buy it? *</label>
+        <textarea id="description" name="description" placeholder="One or two sentences per benefit. e.g. A black tee with a red demon graphic that gets comments every time you wear it. Soft print, no cracking, holds up in the wash." required></textarea>
+        <p class="hint">Separate benefits with periods — each one becomes a scene in the script.</p>
+
+        <label for="audience">Who is it for? <span class="opt">(optional)</span></label>
+        <input id="audience" type="text" name="audience" placeholder="e.g. streetwear fans, gym-goers, busy parents">
+
+        <label for="offer">The offer <span class="opt">(optional)</span></label>
+        <input id="offer" type="text" name="offer" placeholder="e.g. 20% off this week, free shipping today">
+
+        <label for="product_url">Product URL <span class="opt">(optional)</span></label>
+        <input id="product_url" type="url" name="product_url" placeholder="https://yourstore.com/product">
+
+        <label for="email">Your email <span class="opt">(optional — saves your package history; free tier is {{ free_limit }} packages per email)</span></label>
+        <input id="email" type="email" name="email" placeholder="you@yourstore.com">
+
+        <div style="margin-top:24px">
+          <button class="btn btn-primary btn-big" type="submit">🔥 Forge my ad package</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>🔥 Ad Forge — forged by Dillon Ventures.</span>
+    <span><a href="/">Home</a> · <a href="/pricing">Pricing</a> · <a href="/gallery">Gallery</a></span>
+  </div>
+</footer>
+</body>
+</html>

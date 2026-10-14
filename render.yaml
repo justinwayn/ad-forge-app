@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: adforge
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      # Deploy-time config (Render prompts for values in the dashboard;
+      # nothing real is committed). See .env.example for what each one is.
+      # Leave a Payment Link blank and that tier falls back to email capture.
+      - key: AD_FORGE_PAYMENT_LINK_STARTER
+        sync: false
+      - key: AD_FORGE_PAYMENT_LINK_PRO
+        sync: false
+      - key: AD_FORGE_PAYMENT_LINK_AGENCY
+        sync: false
+      - key: VIDEO_API_URL
+        sync: false
+      - key: VIDEO_API_KEY
+        sync: false
+      - key: BASE_URL
+        sync: false
+      - key: CONTACT_EMAIL
+        sync: false

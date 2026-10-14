@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pricing — Ad Forge</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">🔥 Ad <span class="flame">Forge</span></a>
+    <nav class="nav-links">
+      <a href="/gallery">Gallery</a>
+      <a href="/pricing">Pricing</a>
+      <a class="btn btn-primary" href="/studio">Forge an ad</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <span class="kicker">Pricing</span>
+    <h1 style="font-size:2.2rem">Cheaper than one hired UGC video.</h1>
+    <p class="lede">One creator video runs $80+. Ad Forge starts free, and the top plan costs less than a single hire — for 200 packages a month.</p>
+
+    {% if notify_ok %}
+    <div class="card flash">✓ You're on the list, {{ notify_email }} — we'll email you the moment {{ notify_tier }} checkout opens.</div>
+    {% endif %}
+
+    <div class="price-grid">
+      {% for t in tiers %}
+      <div class="card price-card {% if t.slug == 'pro' %}highlight{% endif %}">
+        <h3>{{ t.name }}{% if t.slug == 'pro' %} <span class="tag">MOST POPULAR</span>{% endif %}</h3>
+        <p class="price">{% if t.price == 0 %}$0{% else %}${{ t.price }}<span>{{ t.period }}</span>{% endif %}</p>
+        <p>{{ t.blurb }}</p>
+        <ul class="feature-list">
+          {% for f in t.features %}<li>{{ f }}</li>{% endfor %}
+        </ul>
+        {% if t.slug == 'free' %}
+        <a class="btn btn-big" href="/studio">Start free</a>
+        {% elif configured[t.slug] %}
+        <a class="btn btn-primary btn-big" href="/checkout/{{ t.slug }}">Get {{ t.name }} — ${{ t.price }}/mo</a>
+        <p class="hint" style="text-align:center">Secure checkout via Stripe. Cancel anytime.</p>
+        {% else %}
+        <form method="post" action="/pricing/notify">
+          <input type="hidden" name="tier" value="{{ t.slug }}">
+          <label for="email-{{ t.slug }}">Checkout opens soon — get pinged at launch:</label>
+          <div class="inline-form">
+            <input id="email-{{ t.slug }}" type="email" name="email" placeholder="you@yourstore.com" required>
+            <button class="btn" type="submit">Notify me</button>
+          </div>
+        </form>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="card" style="margin-top:22px">
+      <strong>Honest math:</strong> <span style="color:var(--muted)">Testing 10 products a month with hired creators costs $800+. On Starter ($19) you forge 15 packages and test everything yourself. One winning product pays for a year of Ad Forge.</span>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>🔥 Ad Forge — forged by Dillon Ventures.</span>
+    <span><a href="/">Home</a> · <a href="/gallery">Gallery</a> · <a href="/studio">Studio</a></span>
+  </div>
+</footer>
+</body>
+</html>

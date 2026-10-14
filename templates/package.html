@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ p.product_name }} — Ad Package · Ad Forge</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">🔥 Ad <span class="flame">Forge</span></a>
+    <nav class="nav-links">
+      <a href="/gallery">Gallery</a>
+      <a href="/pricing">Pricing</a>
+      <a class="btn btn-primary" href="/studio">Forge another</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <div class="pkg-head">
+      <div>
+        <span class="kicker">Ad package forged</span>
+        <h1 style="font-size:2rem;margin:8px 0 4px">{{ p.product_name }}</h1>
+        <p class="sub" style="margin:0">{{ p.format }}{% if p.product_url %} · <a href="{{ p.product_url }}" target="_blank" rel="noopener">Product page</a>{% endif %}</p>
+      </div>
+      <span class="tag">FOR {{ p.audience | upper }}</span>
+    </div>
+
+    {% if pkg.video_status == 'stub' %}
+    <div class="status-stub">🎬 <strong>Storyboard mode:</strong> {{ video_detail }}</div>
+    {% elif pkg.video_status == 'queued' or pkg.video_status == 'ready' %}
+    <div class="status-ok">🎬 <strong>Video:</strong> {{ pkg.video_status }} — reference: {{ pkg.video_ref }}</div>
+    {% elif pkg.video_status == 'error' %}
+    <div class="status-stub">🎬 <strong>Video render hit a problem</strong> — the package below is complete and saved. Reference: {{ pkg.id }}</div>
+    {% endif %}
+
+    <h2>1 · Pick your hook</h2>
+    <div class="grid grid-3">
+      {% for h in p.hooks %}
+      <div class="card hook-card">
+        <span class="tag">{{ h.tag | upper }}</span>
+        <p class="line">“{{ h.line }}”</p>
+        <p><strong style="color:var(--ink)">{{ h.style }}</strong> — {{ h.why }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <h2 style="margin-top:36px">2 · Shooting scripts</h2>
+    <p class="sub">One full ~30-second script per hook. Read the voiceover lines to camera; the visual column tells you what to film.</p>
+    <div class="script-tabs">
+      {% for style, lines in p.scripts.items() %}
+      <div class="card">
+        <h3 style="margin-top:0">{{ style }} script</h3>
+        <table class="scenes">
+          <tr><th>Time</th><th>Scene</th><th>Voiceover (say this)</th><th>On-screen text</th></tr>
+          {% for s in lines %}
+          <tr>
+            <td class="time">{{ s.time }}</td>
+            <td><span class="lbl">{{ s.label }}</span><br><span class="sub2">{{ s.visual }}</span></td>
+            <td>{{ s.voiceover }}</td>
+            <td>{{ s.onscreen }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      {% endfor %}
+    </div>
+
+    <h2 style="margin-top:36px">3 · Shot list</h2>
+    <div class="card">
+      <table class="scenes">
+        <tr><th>#</th><th>Time</th><th>Scene</th><th>What to film</th><th>Camera</th></tr>
+        {% for s in p.shot_list %}
+        <tr>
+          <td class="time">{{ s.scene }}</td>
+          <td class="time">{{ s.time }}</td>
+          <td><span class="lbl">{{ s.label }}</span></td>
+          <td>{{ s.visual }}</td>
+          <td class="sub2">{{ s.camera }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:28px">
+      <div class="card">
+        <h3 style="margin-top:0">4 · Caption sequence</h3>
+        <p style="margin-bottom:12px">Burn these in, in this order — one idea per card:</p>
+        <div class="cap-list">
+          {% for c in p.captions %}<span class="cap-chip">{{ c }}</span>{% endfor %}
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">5 · Post copy — hashtags</h3>
+        <p class="hash">{{ p.hashtags | join(' ') }}</p>
+        <p>Suggested post text: “{{ p.hooks[0].line }}” + your offer ({{ p.offer }}) + the hashtags.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:28px;text-align:center">
+      <h3 style="margin-top:0">Package saved — bookmark this page to come back to it.</h3>
+      <p>Want variations for another product, or more packages this month?</p>
+      <a class="btn btn-primary" href="/studio">Forge another package</a>
+      <a class="btn" href="/pricing">See plans</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>🔥 Ad Forge — forged by Dillon Ventures.</span>
+    <span><a href="/">Home</a> · <a href="/pricing">Pricing</a> · <a href="/gallery">Gallery</a></span>
+  </div>
+</footer>
+</body>
+</html>
